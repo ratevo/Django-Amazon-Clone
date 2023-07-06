@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from taggit.managers import TaggableManager 
+from django.utils.translation import gettext_lazy as _
 
 
 # Create your models here.
@@ -13,14 +14,14 @@ from taggit.managers import TaggableManager
 # Product Start 
 class Product(models.Model):
 
-    name = models.CharField(max_length=120)
-    price = models.FloatField()
-    quantity = models.IntegerField()
-    description = models.TextField(max_length=30000)
-    subtitle = models.TextField(max_length=500)
-    sku = models.IntegerField()
-    brand = models.ForeignKey('Brand',related_name='product_brand',on_delete=models.SET_NULL,null=True,blank=True)
-      tags = TaggableManager()
+    name = models.CharField(_('name'),max_length=120,)
+    price = models.FloatField(_('price'))
+    quantity = models.IntegerField(_('quantity'))
+    description = models.TextField(_('description'),max_length=30000)
+    subtitle = models.TextField(_('subtitle')max_length=500)
+    sku = models.IntegerField(_('sku'))
+    brand = models.ForeignKey('Brand',verbose_name=_('brand'),related_name='product_brand',on_delete=models.SET_NULL,null=True,blank=True)
+    tags = TaggableManager()
 
     def __str__(self):
         return self.name
