@@ -8,7 +8,11 @@ from django.utils.translation import gettext_lazy as _
 # Create your models here.
 
 
-
+FLAGS_TYPES = (
+    ('New' , 'New'),
+    ('Sale' , 'Sale'),
+    ('Feature' , 'Feature'),
+)
 
 
 # Product Start 
@@ -22,6 +26,8 @@ class Product(models.Model):
     sku = models.IntegerField(_('sku'))
     brand = models.ForeignKey('Brand',verbose_name=_('brand'),related_name='product_brand',on_delete=models.SET_NULL,null=True,blank=True)
     tags = TaggableManager()
+    image = models.ImageField(upload_to='products')
+    flag = models.CharField(max_length=10, choices=FLAGS_TYPES , default='New')
 
     def __str__(self):
         return self.name
