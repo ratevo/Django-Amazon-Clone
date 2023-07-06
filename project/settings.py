@@ -41,7 +41,7 @@ INSTALLED_APPS = [
 
 
     #taggit
-    "taggit"
+    "taggit",
 
 
     # my apps

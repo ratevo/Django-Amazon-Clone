@@ -18,7 +18,7 @@ class Product(models.Model):
     price = models.FloatField(_('price'))
     quantity = models.IntegerField(_('quantity'))
     description = models.TextField(_('description'),max_length=30000)
-    subtitle = models.TextField(_('subtitle')max_length=500)
+    subtitle = models.TextField(_('subtitle'),max_length=500)
     sku = models.IntegerField(_('sku'))
     brand = models.ForeignKey('Brand',verbose_name=_('brand'),related_name='product_brand',on_delete=models.SET_NULL,null=True,blank=True)
     tags = TaggableManager()
@@ -32,8 +32,8 @@ class Product(models.Model):
 # Products Images Start
 
 class ProductImages(models.Model):
-    Product = models.ForeignKey(Product,related_name='product_image',on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='productiamges')
+    product = models.ForeignKey(Product,verbose_name=_('product'),related_name='product_image',on_delete=models.CASCADE)
+    image = models.ImageField(_('image'),upload_to='productiamges')
 
 
     def __str__(self):
@@ -59,8 +59,8 @@ class ProductImages(models.Model):
 
 # Brand start
 class Brand(models.Model):
-    name = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='brands')
+    name = models.CharField(_('name'),max_length=100)
+    image = models.ImageField(_('image'),upload_to='brands')
 
 
     def __str__(self):
@@ -72,11 +72,11 @@ class Brand(models.Model):
 # Review Start
 
 class Review(models.Model):
-    user = models.ForeignKey(User,related_name='review_author',on_delete=models.SET_NULL,null=True,blank=True)
-    product = models.ForeignKey(Product,related_name='product_review',on_delete=models.CASCADE)
-    reviw = models.TextField(max_length=500)
-    rate = models.IntegerField() 
-    create_date = models.DateTimeField(default=timezone.now)
+    user = models.ForeignKey(User,verbose_name=_('user'),related_name='review_author',on_delete=models.SET_NULL,null=True,blank=True)
+    product = models.ForeignKey(Product,verbose_name=_('product'),related_name='product_review',on_delete=models.CASCADE)
+    reviw = models.TextField(_('reviw'),max_length=500)
+    rate = models.IntegerField(_('rate')) 
+    create_date = models.DateTimeField(_('create_date'),default=timezone.now)
 
 
 
