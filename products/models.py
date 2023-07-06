@@ -1,7 +1,11 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from taggit.managers import TaggableManager 
+
+
 # Create your models here.
+
 
 
 
@@ -16,9 +20,39 @@ class Product(models.Model):
     subtitle = models.TextField(max_length=500)
     sku = models.IntegerField()
     brand = models.ForeignKey('Brand',related_name='product_brand',on_delete=models.SET_NULL,null=True,blank=True)
+      tags = TaggableManager()
 
     def __str__(self):
         return self.name
+
+
+
+
+# Products Images Start
+
+class ProductImages(models.Model):
+    Product = models.ForeignKey(Product,related_name='product_image',on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='productiamges')
+
+
+    def __str__(self):
+        return str(self.product)
+    
+
+
+
+
+
+
+# Images End
+
+
+
+
+
+
+
+
 
 
 
@@ -43,3 +77,9 @@ class Review(models.Model):
     rate = models.IntegerField() 
     create_date = models.DateTimeField(default=timezone.now)
 
+
+
+
+
+def __str__(self):
+    return str(self.product)
