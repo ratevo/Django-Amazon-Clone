@@ -3,6 +3,9 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from taggit.managers import TaggableManager 
 from django.utils.translation import gettext_lazy as _
+from django.utils.text import slugify
+import random
+
 
 
 # Create your models here.
@@ -28,10 +31,15 @@ class Product(models.Model):
     tags = TaggableManager()
     image = models.ImageField(upload_to='products')
     flag = models.CharField(max_length=10, choices=FLAGS_TYPES , default='New')
+    slug = models.SlugField(null=True,blank=True)
 
     def __str__(self):
         return self.name
 
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Product, self).save(*args, **kwargs) # Call the real save() method
 
 
 
@@ -51,28 +59,32 @@ class ProductImages(models.Model):
 
 
 
+
+
+
+
+
+
+
+
 # Images End
-
-
-
-
-
-
-
-
-
+#  Product End
 
 
 # Brand start
 class Brand(models.Model):
     name = models.CharField(_('name'),max_length=100)
     image = models.ImageField(_('image'),upload_to='brands')
-
-
+    slug = models.SlugField(null=True,blank=True,unique=True)
+    
     def __str__(self):
         return self.name
+    
+    def save(self, *args, **kwargs):
+        self.slug = f"{slugify(self.name)}{random.randint(1000,100000000)}"
+        super(Brand, self).save(*args, **kwargs) # Call the real save() method  
 
-#  Product End
+#  Brand End
 
 
 # Review Start
